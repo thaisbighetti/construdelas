@@ -6,18 +6,31 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0010_remove_orderdetail_order_id_orderdetail_order'),
+        ("shop", "0010_remove_orderdetail_order_id_orderdetail_order"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='order',
-            name='status',
-            field=models.CharField(choices=[('awayting_payment', 'Awayting payment'), ('order_processed', 'Order processed')], max_length=20, verbose_name='Status'),
+            model_name="order",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("awayting_payment", "Awayting payment"),
+                    ("order_processed", "Order processed"),
+                ],
+                max_length=20,
+                verbose_name="Status",
+            ),
         ),
         migrations.AlterField(
-            model_name='order',
-            name='value',
-            field=models.DecimalField(decimal_places=2, editable=False, max_digits=10, null=True, verbose_name='Value'),
+            model_name="order",
+            name="value",
+            field=models.DecimalField(
+                decimal_places=2,
+                editable=False,
+                max_digits=10,
+                null=True,
+                verbose_name="Value",
+            ),
         ),
     ]

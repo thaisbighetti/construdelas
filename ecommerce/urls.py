@@ -15,20 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from shop.views import CustomerViewSet, OrdersDetailsViewSet, OrdersViewSet, ProductViewSet
 from rest_framework.routers import DefaultRouter
 
+from shop.views import (CustomerViewSet, OrdersDetailsViewSet, OrdersViewSet,
+                        ProductViewSet)
+
 router = DefaultRouter()
-router.register(r'customer', CustomerViewSet ,basename="customer")
-router.register(r'product', ProductViewSet ,basename="product")
-router.register(r'order', OrdersViewSet ,basename="order")
-router.register(r'order-detail', OrdersDetailsViewSet ,basename="order-detail")
-
-
+router.register(
+    r"customer",
+    CustomerViewSet,
+)
+router.register(r"product", ProductViewSet)
+router.register(r"order", OrdersViewSet)
+router.register(r"order-detail", OrdersDetailsViewSet)
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-
 ]
 urlpatterns += router.urls
