@@ -19,6 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     value = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+    customer_id = serializers.CharField(max_length=255)
 
     class Meta:
         model = Order
