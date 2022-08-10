@@ -1,5 +1,6 @@
 import uuid
 
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 
 
@@ -16,7 +17,9 @@ class BaseModelMixin(models.Model):
 
 class Customer(BaseModelMixin):
     name = models.CharField(max_length=50, verbose_name="Name", null=False, blank=False)
-    cpf = models.CharField(max_length=14, verbose_name="Cpf", null=False, blank=False)
+    cpf = models.CharField(
+        max_length=14, verbose_name="Cpf", null=False, blank=False, unique=True
+    )
     phone = models.CharField(
         max_length=13, verbose_name="Phone", null=False, blank=False
     )
@@ -52,7 +55,7 @@ class Order(BaseModelMixin):
 
     customer_id = models.ForeignKey(
         Customer,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name="Customer Id",
         null=False,
         blank=False,
@@ -73,7 +76,7 @@ class Order(BaseModelMixin):
 class OrderDetail(BaseModelMixin):
     order = models.ForeignKey(
         Order,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         verbose_name="Order",
         null=False,
         blank=False,

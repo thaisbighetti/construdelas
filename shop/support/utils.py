@@ -1,6 +1,11 @@
+import re
 from decimal import Decimal
 
 from shop.models import Order, OrderDetail
+
+
+def remove_special_characters(value: str) -> str:
+    return re.sub(r"\D", "", value)
 
 
 def get_value(products):
