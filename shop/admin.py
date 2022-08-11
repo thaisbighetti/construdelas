@@ -20,7 +20,9 @@ class OrderFilter(admin.ModelAdmin):
     list_filter = ["created_at", "updated_at"]
     list_per_page = 20
 
-FAZER FORM ADMIN
+
+# FAZER FORM ADMIN
+
 
 @admin.register(OrderDetail)
 class OrderDetailFilter(admin.ModelAdmin):
@@ -29,6 +31,7 @@ class OrderDetailFilter(admin.ModelAdmin):
     search_fields = ["id", "order_id", "products"]
     list_filter = ["created_at", "updated_at"]
     list_per_page = 20
+
 
 @admin.register(Product)
 class ProductFilter(admin.ModelAdmin):

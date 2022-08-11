@@ -1,36 +1,49 @@
+from django import forms
 from rest_framework import serializers
-
-from shop.support.utils import perform_update, process_order
+from rest_framework.serializers import ValidationError
+from shop.support.utils import perform_update, process_order, remove_special_characters
 
 from .models import Customer, Order, OrderDetail, Product
 
 
 class CustomerSerializer(serializers.ModelSerializer):
+    cpf = serializers.CharField(required=True, write_only=True)
+
     class Meta:
         model = Customer
         fields = "__all__"
+
+    def validate_cpf(self, data):
+        return remove_special_characters(data)
+
+    def validate_phone(self, data):
+        return remove_special_characters(data)
+
+
+class CustomerUpdateSerializer(serializers.ModelSerializer):
+    class Meta(CustomerSerializer.Meta):
+        fields = ["email", "name", "address", "phone"]
+
+    def validate_phone(self, data):
+        return remove_special_characters(data)
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["name", "value"]
+        fields = "__all__"
 
 
 class OrderSerializer(serializers.ModelSerializer):
     value = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
-    customer_id = serializers.CharField(max_length=255)
 
     class Meta:
         model = Order
-        fields = ["customer_id", "products", "value"]
+        exclude = ["status"]
 
     def create(self, validated_data):
         order = process_order(validated_data)
         return order
-
-    def update(self, instance, validated_data):
-        return perform_update(instance, validated_data)
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
@@ -38,4 +51,4 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderDetail
-        fields = "__all__"
+        fields = ["id", "order", "created_at", "updated_at", "status", "products"]

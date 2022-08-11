@@ -17,8 +17,12 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from shop.views import (CustomerViewSet, OrdersDetailsViewSet, OrdersViewSet,
-                        ProductViewSet)
+from shop.views import (
+    CustomerViewSet,
+    OrdersDetailsViewSet,
+    OrdersViewSet,
+    ProductViewSet,
+)
 
 router = DefaultRouter()
 router.register(

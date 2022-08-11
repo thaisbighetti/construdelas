@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:11-alpine
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+
+  web:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    env_file:
+      - .env
+    command: /bin/sh -c "python manage.py makemigrations;
+                         python manage.py migrate;
+                         python manage.py createsuperuser --noinput --email 'admin@admin.com';
+                         python manage.py runserver 0.0.0.0:8000";
+                         exit 0;"
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app/
+    depends_on:
+      - db
