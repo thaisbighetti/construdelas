@@ -30,19 +30,3 @@ def process_order(data):
     OrderDetail.objects.create(order_id=order.id, products=order_detail_products)
 
     return order
-
-
-def perform_update(instance, data):
-    instance.products.set(data["products"])
-    instance.value = get_value(instance.products)
-
-    order_detail_products = {"products": []}
-    for product in data["products"]:
-        order_detail_product = [str(product.id), product.name, str(product.value)]
-        order_detail_products["products"].append(order_detail_product)
-
-    order_detail = OrderDetail.objects.get(order_id=instance.id)
-    order_detail.products = order_detail_products
-    order_detail.save()
-    instance.save()
-    return instance

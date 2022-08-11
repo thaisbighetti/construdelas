@@ -28,6 +28,9 @@ class Customer(BaseModelMixin):
         max_length=255, verbose_name="Address", null=False, blank=False
     )
 
+    def __str__(self) -> str:
+        return str(self.id)
+
 
 class Product(BaseModelMixin):
     name = models.CharField(max_length=50, verbose_name="Name", null=False, blank=False)
