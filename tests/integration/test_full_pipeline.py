@@ -1,10 +1,10 @@
-from decimal import Decimal
 from uuid import uuid4
 
 import pytest
 from django.urls import reverse
 from model_bakery import baker
 from rest_framework import status
+
 from shop.models import Customer, Order, OrderDetail, Product
 
 content_type = "application/json"
@@ -28,9 +28,7 @@ class TestCreateOrder:
         assert order.value == product.value
         assert order.products.get() == product
         assert order_detail.order == order
-        assert order_detail.products == {
-            "products": [[str(product.id), product.name, "10.00"]]
-        }
+        assert order_detail.products == {"products": [[str(product.id), product.name, "10.00"]]}
 
     def test_should_not_create_order_when_customer_does_not_exist(self, client):
         product = baker.make(Product, value=10)
@@ -51,6 +49,9 @@ class TestCreateOrder:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert Order.objects.count() == 0
         assert OrderDetail.objects.count() == 0
+
+
+"pytest -v"
 
 
 @pytest.mark.django_db
@@ -78,4 +79,21 @@ class TestCreateCustomer:
             "address": "Rua 1, do lado da rua 2",
         }
         response = client.post(create_customer_view, payload, content_type=content_type)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+@pytest.mark.django_db
+class TestCreateProduct:
+    def test_should_create_product(self, client):
+        create_product_view = reverse("product-list")
+        payload = {"name": "produto bem legal", "description": "descrição do produto bem legal", "value": 1.0}
+        response = client.post(create_product_view, payload, content_type=content_type)
+        assert Product.objects.count() == 1
+        assert response.status_code == status.HTTP_201_CREATED
+
+    def test_should_not_create_product_when_missing_fields(self, client):
+        create_product_view = reverse("product-list")
+        payload = {"name": "produto bem legal", "description": "descrição do produto bem legal"}
+        response = client.post(create_product_view, payload, content_type=content_type)
+        assert Product.objects.count() == 0
         assert response.status_code == status.HTTP_400_BAD_REQUEST

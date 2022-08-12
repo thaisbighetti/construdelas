@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0005_rename_customer_id_order_customer'),
+        ("shop", "0005_rename_customer_id_order_customer"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='orderdetail',
-            name='products',
-            field=models.JSONField(encoder=django.core.serializers.json.DjangoJSONEncoder),
+            model_name="orderdetail",
+            name="products",
+            field=models.JSONField(
+                encoder=django.core.serializers.json.DjangoJSONEncoder
+            ),
         ),
     ]

@@ -25,3 +25,14 @@ services:
       - .:/app/
     depends_on:
       - db
+
+  tests:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      env_file: .env
+      volumes:
+        - .:/app/
+      depends_on:
+        - db
+      command: /bin/sh -c "pytest -v"

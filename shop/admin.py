@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from .forms import OrderDetailForm, OrderForm
+
 from .models import Customer, Order, OrderDetail, Product
 
 
@@ -19,6 +21,7 @@ class OrderFilter(admin.ModelAdmin):
     search_fields = ["id", "created_at", "status", "customer_id"]
     list_filter = ["created_at", "updated_at"]
     list_per_page = 20
+    form = OrderForm
 
 
 # FAZER FORM ADMIN
@@ -31,6 +34,7 @@ class OrderDetailFilter(admin.ModelAdmin):
     search_fields = ["id", "order_id", "products"]
     list_filter = ["created_at", "updated_at"]
     list_per_page = 20
+    form = OrderDetailForm
 
 
 @admin.register(Product)

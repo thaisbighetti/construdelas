@@ -1,7 +1,8 @@
 from django import forms
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
-from shop.support.utils import perform_update, process_order, remove_special_characters
+
+from shop.support.utils import process_order, remove_special_characters
 
 from .models import Customer, Order, OrderDetail, Product
 

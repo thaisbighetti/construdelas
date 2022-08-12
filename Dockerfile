@@ -10,5 +10,3 @@ RUN pip install --upgrade pip && \
 
 RUN poetry install --no-root
 EXPOSE 8080
-
-
